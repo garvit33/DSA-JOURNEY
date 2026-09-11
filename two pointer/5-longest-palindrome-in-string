@@ -1,0 +1,41 @@
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        //our final answers indexes declared
+        int start = 0;
+        int end = 0;
+        //assumes every index as a possible center for palindrome
+        for(int i = 0;i<s.size();i++){
+            int center = i;
+
+            //checks for odd palindrome
+            int left = center;
+            int right = center;
+            //expands left and right from center until chars are same
+            while(left>=0 && right<s.size() && s[left] == s[right]){
+                left--;
+                right++;
+            }
+            //compares lenght of palindrome found to current best
+            if(right-left-1>end-start+1){
+                start=left+1;
+                end=right-1;
+            }  
+
+            //check for odd palindrome 
+            left = center;
+            right = center+1; 
+
+            while(left>=0 && right<s.size() && s[left] == s[right]){
+                left--;
+                right++;
+            }
+            if(right-left-1>end-start+1){
+                start=left+1;
+                end=right-1;
+            }    
+    }
+    //returns substr of palindrome
+    return s.substr(start,end-start+1);
+    }
+};
