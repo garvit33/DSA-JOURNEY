@@ -1,0 +1,54 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+    //freq maps for both strings
+    unordered_map<char,int> tmap;
+    unordered_map<char,int> smap;
+
+    //initializing tmap with values wich becomes the needed freq
+    for(char x:t){
+        tmap[x]++;
+    }
+    
+    int left = 0;
+    //tracks how many chars of required freq we have 
+    int having = 0;
+    int bestlen = INT_MAX;
+    int bestleft = 0;
+    //right pointer
+    for(int right = 0;right<s.size();right++){
+
+
+        smap[s[right]]++;
+        //increase having if the char exists less then or equal to needed freq
+        if(tmap.count(s[right]) && smap[s[right]] <= tmap[s[right]]){
+            having++;
+        }
+        //if a window is valid try to shrink 
+        while(having == t.size()){
+
+            //tracks the smallest length
+            if(right-left+1<bestlen){
+                bestleft = left;
+                bestlen = right-left+1;
+            }
+            //left pointer  removing char from having if its freq decreases than required
+            if(tmap.count(s[left]) && smap[s[left]] == tmap[s[left]] ){
+                having--;
+            }
+
+
+            smap[s[left]]--;
+            left++;
+            
+        }
+        
+    }
+
+    if(bestlen == INT_MAX){
+        return "";
+    }
+    return s.substr(bestleft,bestlen);
+
+    }
+};
