@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int atmostk(vector<int>& nums,int k){
+
+        int oddcount = 0;
+        int ans = 0;
+        int left = 0;
+        //right pointer
+        for(int right =0;right<nums.size();right++){
+            //odd counter
+            if(nums[right]%2 != 0){
+                oddcount++;
+            }
+            //left pointer of window
+            while(oddcount>k){
+                if(nums[left]%2 != 0){
+                    oddcount--;
+                }
+                    left++;
+
+            }
+            //if there are less than or equal number of odds to k than calculates possible subarrays
+            if(oddcount <= k){
+                ans+=right-left+1;
+            }
+    }
+    return ans;
+    }
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        //to get subarrays with exactlyk odds we substract subarrays with atmost k-1 odds from subarrays with atmost k to get exact k 
+        return atmostk(nums,k)-atmostk(nums,k-1);
+    }
+};
